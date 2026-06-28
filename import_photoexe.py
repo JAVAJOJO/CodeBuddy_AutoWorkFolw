@@ -12,6 +12,8 @@ from openpyxl.utils import column_index_from_string
 import shutil
 import os
 from openpyxl.styles import Font, Alignment, Border, Side
+import logging
+from datetime import datetime
 
 # ============================================================
 # 样式定义
@@ -35,29 +37,54 @@ def apply_style(cell, font_size=8):
 PHOTOEXE_PATH = r"C:\Users\Administrator\Desktop\py\photoexe.xlsx"
 FAR_PATH   = r"C:\Users\Administrator\Desktop\py\Asset ID Status_FAR.xlsx"
 INV_PATH   = r"C:\Users\Administrator\Desktop\py\VFS IT Inventory Guangzhou 2026.xlsx"
+BACKUP_DIR = r"C:\Users\Administrator\Desktop\py\backup"
 
-# 测试模式：是否先复制文件到测试目录（避免破坏原文件）
-TEST_MODE = False
-TEST_DIR = r"C:\Users\Administrator\Desktop\py\test_output"
+# ============================================================
+# 日志配置
+# ============================================================
+LOG_FILE = r"C:\Users\Administrator\Desktop\txcode\asset_workflow—1782576943454\import_log.txt"
 
-# 如果测试模式开启，使用测试目录下的文件
-if TEST_MODE:
-    import os
-    import glob
-    # 删除旧的测试文件
-    for f in glob.glob(os.path.join(TEST_DIR, "*.xlsx")):
-        try:
-            os.remove(f)
-        except:
-            pass
-    os.makedirs(TEST_DIR, exist_ok=True)
+# 配置日志记录
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    handlers=[
+        logging.FileHandler(LOG_FILE, encoding='utf-8'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
+
+# ============================================================
+# 备份功能
+# ============================================================
+def backup_files():
+    """执行前备份原文件，加上时间戳"""
     import shutil
-    shutil.copy2(FAR_PATH, os.path.join(TEST_DIR, "Asset ID Status_FAR.xlsx"))
-    shutil.copy2(INV_PATH, os.path.join(TEST_DIR, "VFS IT Inventory Guangzhou 2026.xlsx"))
-    FAR_PATH   = os.path.join(TEST_DIR, "Asset ID Status_FAR.xlsx")
-    INV_PATH   = os.path.join(TEST_DIR, "VFS IT Inventory Guangzhou 2026.xlsx")
-    print(f"[测试模式] 文件将写入: {TEST_DIR}")
-    print(f"原文件不会被修改\n")
+    from datetime import datetime
+    
+    # 创建备份目录
+    os.makedirs(BACKUP_DIR, exist_ok=True)
+    
+    # 生成时间戳
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    
+    # 备份文件
+    backed_up = []
+    for filepath in [FAR_PATH, INV_PATH]:
+        if os.path.exists(filepath):
+            filename = os.path.basename(filepath)
+            name, ext = os.path.splitext(filename)
+            backup_name = f"{name}_{timestamp}{ext}"
+            backup_path = os.path.join(BACKUP_DIR, backup_name)
+            shutil.copy2(filepath, backup_path)
+            backed_up.append(backup_path)
+            logger.info(f"已备份: {filepath} -> {backup_path}")
+    
+    print(f"[备份] 原文件已备份到: {BACKUP_DIR}")
+    logger.info(f"备份完成，共备份 {len(backed_up)} 个文件")
+    return backed_up
 
 # ============================================================
 # 配置 - 根据数据自动判断
@@ -243,6 +270,7 @@ def write_to_far(data, filepath=FAR_PATH):
     wb.save(filepath)
     wb.close()
     print(f"  [OK] 表1 [{sheet_name}] 行 {next_row}: 写入成功")
+    logger.info(f"    表1: 在 sheet '{sheet_name}' 第 {next_row} 行写入数据")
     return True
 
 
@@ -292,28 +320,63 @@ def write_to_inventory(data, filepath=INV_PATH):
     wb.save(filepath)
     wb.close()
     print(f"  [OK] 表3 [{sheet_name}] 行 {next_row}: 写入成功 (Sr.No={data['sr_no']})")
+    logger.info(f"    表3: 在 sheet '{sheet_name}' 第 {next_row} 行写入数据 (Sr.No={data['sr_no']})")
     return True
 
 
 def main():
+    # 执行前先备份原文件
+    print("正在备份原文件...")
+    backup_files()
+    print()
+    
+    logger.info("=" * 65)
+    logger.info("开始执行数据导入任务")
+    logger.info(f"数据源: {PHOTOEXE_PATH}")
+    logger.info(f"目标文件: {FAR_PATH}, {INV_PATH}")
+    
     print("读取 photoexe.xlsx...")
     data_list = read_photoexe()
     print(f"共 {len(data_list)} 条记录\n")
+    logger.info(f"成功读取 {len(data_list)} 条记录")
 
     for i, data in enumerate(data_list):
         print(f"--- 记录 #{i+1} ---")
-        print(f"  SN: {data['serial_no']} | {data['brand']} {data['model']} | {data['asset_id']} | {data['global_asset_tag']}")
+        print(f"  SN: {data['serial_no']} | {data['brand']} {data['model']} | asset_id: {data['asset_id']} | global: {data['global_asset_tag']}")
+        
+        # 记录当前处理的数据
+        logger.info(f"--- 处理记录 #{i+1} ---")
+        logger.info(f"  城市: {data['city']}")
+        logger.info(f"  部门: {data['department']}")
+        logger.info(f"  设备类型: {data['type_of_equipment']}")
+        logger.info(f"  品牌: {data['brand']}")
+        logger.info(f"  型号: {data['model']}")
+        logger.info(f"  序列号: {data['serial_no']}")
+        logger.info(f"  Asset ID: {data['asset_id']}")
+        logger.info(f"  Global Asset Tag: {data['global_asset_tag']}")
 
         print("  >> 写入表Asset_Far...")
-        write_to_far(data)
+        if write_to_far(data):
+            logger.info(f"  成功写入表1 (Asset ID Status_FAR)")
+        else:
+            logger.error(f"  写入表1失败")
 
         print("  >> 写入表Inventory...")
-        write_to_inventory(data)
+        if write_to_inventory(data):
+            logger.info(f"  成功写入表3 (VFS IT Inventory)")
+        else:
+            logger.error(f"  写入表3失败")
 
         print()
+        logger.info("")  # 日志中加空行分隔
 
     print("=" * 65)
     print("完成!")
+    logger.info("=" * 65)
+    logger.info("数据导入任务完成")
+    logger.info(f"共处理 {len(data_list)} 条记录")
+    logger.info(f"日志已保存到: {LOG_FILE}")
+    logger.info("=" * 65 + "\n")
 
 
 if __name__ == "__main__":

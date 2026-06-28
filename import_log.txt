@@ -1,0 +1,45 @@
+2026-06-28 12:50:44 - INFO - 已备份: C:\Users\Administrator\Desktop\py\Asset ID Status_FAR.xlsx -> C:\Users\Administrator\Desktop\py\backup\Asset ID Status_FAR_20260628_125044.xlsx
+2026-06-28 12:50:44 - INFO - 已备份: C:\Users\Administrator\Desktop\py\VFS IT Inventory Guangzhou 2026.xlsx -> C:\Users\Administrator\Desktop\py\backup\VFS IT Inventory Guangzhou 2026_20260628_125044.xlsx
+2026-06-28 12:50:44 - INFO - 备份完成，共备份 2 个文件
+2026-06-28 12:50:44 - INFO - =================================================================
+2026-06-28 12:50:44 - INFO - 开始执行数据导入任务
+2026-06-28 12:50:44 - INFO - 数据源: C:\Users\Administrator\Desktop\py\photoexe.xlsx
+2026-06-28 12:50:44 - INFO - 目标文件: C:\Users\Administrator\Desktop\py\Asset ID Status_FAR.xlsx, C:\Users\Administrator\Desktop\py\VFS IT Inventory Guangzhou 2026.xlsx
+2026-06-28 12:50:44 - INFO - 成功读取 1 条记录
+2026-06-28 12:50:44 - INFO - --- 处理记录 #1 ---
+2026-06-28 12:50:44 - INFO -   城市: GZ
+2026-06-28 12:50:44 - INFO -   部门: UK
+2026-06-28 12:50:44 - INFO -   设备类型: Monitor
+2026-06-28 12:50:44 - INFO -   品牌: HP
+2026-06-28 12:50:44 - INFO -   型号: 324PV
+2026-06-28 12:50:44 - INFO -   序列号: CNV66666
+2026-06-28 12:50:44 - INFO -   Asset ID: 1298765-100040-12
+2026-06-28 12:50:44 - INFO -   Global Asset Tag: 98765
+2026-06-28 12:51:08 - INFO - 已备份: C:\Users\Administrator\Desktop\py\Asset ID Status_FAR.xlsx -> C:\Users\Administrator\Desktop\py\backup\Asset ID Status_FAR_20260628_125108.xlsx
+2026-06-28 12:51:08 - INFO - 已备份: C:\Users\Administrator\Desktop\py\VFS IT Inventory Guangzhou 2026.xlsx -> C:\Users\Administrator\Desktop\py\backup\VFS IT Inventory Guangzhou 2026_20260628_125108.xlsx
+2026-06-28 12:51:08 - INFO - 备份完成，共备份 2 个文件
+2026-06-28 12:51:08 - INFO - =================================================================
+2026-06-28 12:51:08 - INFO - 开始执行数据导入任务
+2026-06-28 12:51:08 - INFO - 数据源: C:\Users\Administrator\Desktop\py\photoexe.xlsx
+2026-06-28 12:51:08 - INFO - 目标文件: C:\Users\Administrator\Desktop\py\Asset ID Status_FAR.xlsx, C:\Users\Administrator\Desktop\py\VFS IT Inventory Guangzhou 2026.xlsx
+2026-06-28 12:51:08 - INFO - 成功读取 1 条记录
+2026-06-28 12:51:08 - INFO - --- 处理记录 #1 ---
+2026-06-28 12:51:08 - INFO -   城市: GZ
+2026-06-28 12:51:08 - INFO -   部门: UK
+2026-06-28 12:51:08 - INFO -   设备类型: Monitor
+2026-06-28 12:51:08 - INFO -   品牌: HP
+2026-06-28 12:51:08 - INFO -   型号: 324PV
+2026-06-28 12:51:08 - INFO -   序列号: CNV66666
+2026-06-28 12:51:08 - INFO -   Asset ID: 1298765-100040-12
+2026-06-28 12:51:08 - INFO -   Global Asset Tag: 98765
+2026-06-28 12:51:09 - INFO -     表1: 在 sheet 'GZ' 第 381 行写入数据
+2026-06-28 12:51:09 - INFO -   成功写入表1 (Asset ID Status_FAR)
+2026-06-28 12:51:11 - INFO -     表3: 在 sheet 'UK&Ireland' 第 224 行写入数据 (Sr.No=219)
+2026-06-28 12:51:11 - INFO -   成功写入表3 (VFS IT Inventory)
+2026-06-28 12:51:11 - INFO - 
+2026-06-28 12:51:11 - INFO - =================================================================
+2026-06-28 12:51:11 - INFO - 数据导入任务完成
+2026-06-28 12:51:11 - INFO - 共处理 1 条记录
+2026-06-28 12:51:11 - INFO - 日志已保存到: C:\Users\Administrator\Desktop\txcode\asset_workflow—1782576943454\import_log.txt
+2026-06-28 12:51:11 - INFO - =================================================================
+
