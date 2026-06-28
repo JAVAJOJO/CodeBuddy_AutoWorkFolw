@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# 测试和临时文件
+test_output/
+*.tmp
+*.bak
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 环境变量和配置
+.env
+.config
+
+# Excel 文件（如果包含敏感数据）
+# *.xlsx
+# *.xls
+
+# 其他
+.DS_Store
+Thumbs.db
