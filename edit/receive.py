@@ -42,7 +42,7 @@ BACKUP_DIR = r"C:\Users\Administrator\Desktop\py\backup"
 # ============================================================
 # 日志配置
 # ============================================================
-LOG_FILE = r"C:\Users\Administrator\Desktop\txcode\asset_workflow—1782576943454\import_log.txt"
+LOG_FILE = r"C:\Users\Administrator\Desktop\txcode\asset_workflow—1782576943454\edit\asset_receive.txt"
 
 # 配置日志记录
 logging.basicConfig(
